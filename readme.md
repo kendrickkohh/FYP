@@ -6,6 +6,7 @@
 
 - [Overview](#overview)
 - [Installation](#installation)
+- [Current Modules / Project Components](#current-modules--project-components)
 - [Future Work](#future-work)
 - [Acknowledgements](#acknowledgements)
 
@@ -13,37 +14,38 @@
 
 This project aims to address the critical gap by developing a comprehensive Secure Chatbot Development Handbook. This handbook will be designed specifically for student developers and early stage professionals who are inexperienced in chatbot development. The handbook will aim to provide practical guidance, detailed explanation of common vulnerabilities and step-by-step implementation of secure code practices.
 
+## Installation
+
+- All relevant installations are in requirements.txt
+- We reccomend utilizing `python3.10`
+- We also reccomend utilizing venv, activation: `source ./venv/bin/activate`
+
+```bash
+pip install -r requirements.txt
+```
+
 ## Current Modules / Project Components
 
-`get_embedding.py`  
-Handles embedding generation using the `mxbai-embed-large` model.
+### get_embedding.py  
+Handles embedding generation using the `mxbai-embed-large` embedding model.
 
-`guardrail.py`  
+### guardrail.py
 Implements [LLM Guard](https://github.com/protectai/llm-guard) to sanitize and validate both inputs and outputs from the LLM.
 
-`populate_database.py`  
+### populate_database.py
 Populates the vector datastore by:
 - Checking the `data/` folder for new entries
 - Adding any new data into the datastore if not already present
 
-`query_data.py`  
+### query_data.py
 Main querying interface that:
 - Accepts user queries and sends them to the LLM
 - Uses RAG (Retrieval-Augmented Generation) to retrieve relevant context from the datastore
 - Applies input/output validation using `guardrail.py`
 
-`Ollama models`
+### Ollama models
 Llama3.2
-
-## Installation
-
-- All relevant installations are in requirements.txt
-- Note that we use `python3.10` to run the programs
-
-```bash
-pip install -r requirements.txt
-source ./venv/bin/activate
-```
+mxbai-embed-large
 
 ## Future work
 
