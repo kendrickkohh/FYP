@@ -44,6 +44,9 @@ security_results = db.similarity_search_with_score(query_text, k=3, filter={"cat
 domain_results = db.similarity_search_with_score(query_text, k=5, filter={"category": "domain"})
 ```
 
+- Look into producing malicious data for images and audio
+- How to generate a malicious image: `https://www.youtube.com/watch?v=dqdOJzzWxs4`
+
 ## Acknowledgements
 
 - Created by: Koh Yihao Kendrick (U2222663K)
