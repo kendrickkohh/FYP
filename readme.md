@@ -15,7 +15,8 @@ This project aims to address the critical gap by developing a comprehensive Secu
 
 ## Installation
 
-All relevant installations are in requirements.txt
+- All relevant installations are in requirements.txt
+- Note that we use `python3.10` to run the programs
 
 ```bash
 pip install -r requirements.txt

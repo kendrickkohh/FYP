@@ -3,6 +3,7 @@ from langchain_community.llms.ollama import Ollama
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.vectorstores.chroma import Chroma
 from get_embedding import get_embedding
+from guardrail import guardrail_input, guardrail_output
 
 template = """
 You are an expert in answering questions on the technology risk management guidelines from monetary authority of singapore. 
@@ -14,7 +15,7 @@ Here is the question to answer: {question}
 """
 
 def query_rag(query_text: str):
-    # Prepare the DB.\
+    # Prepare the DB
     embedding_function = get_embedding()
     db = Chroma(persist_directory="chroma", embedding_function=embedding_function)
 
@@ -31,9 +32,7 @@ def query_rag(query_text: str):
     response_text = model.invoke(prompt)
 
     sources = [doc.metadata.get("id", None) for doc, _score in results]
-    formatted_response = f"Response: {response_text}\nSources: {sources}"
-    print(formatted_response)
-    return response_text
+    return response_text, sources
 
 def main():
     # Create CLI
@@ -42,12 +41,28 @@ def main():
     # args = parser.parse_args()
     # query_text = args.query_text
     while True:
-        query_text = input("Ask your question (q to quit): ")
-
+        query_text = input("\nAsk your question (q to quit): ")
         if query_text == "q":
             break
 
-        query_rag(query_text)
+        print("\nSanitizing input...")
+        sanitized_prompt = guardrail_input(query_text)
+        print("Sanitized input:", sanitized_prompt)
+        if sanitized_prompt == "eject":
+            print("Prompt injection detected")
+            continue
+
+        print("\nQuerying RAG...")
+        response_text, sources = query_rag(sanitized_prompt)
+
+        print("\nSanitizing output...")
+        sanitized_response_text = guardrail_output(sanitized_prompt, response_text)
+        if sanitized_response_text == "eject":
+            print("Inproper output detected")
+            continue
+
+        formatted_response = f"\nResponse: {sanitized_response_text}\nSources: {sources}"
+        print(formatted_response)
 
 main()
 
