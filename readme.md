@@ -15,25 +15,25 @@ This project aims to address the critical gap by developing a comprehensive Secu
 
 ## Current Modules / Project Components
 
-- `get_embedding.py`  
-  Handles embedding generation using the `mxbai-embed-large` model.
+`get_embedding.py`  
+Handles embedding generation using the `mxbai-embed-large` model.
 
-- `guardrail.py`  
-  Implements [LLM Guard](https://github.com/protectai/llm-guard) to sanitize and validate both inputs and outputs from the LLM.
+`guardrail.py`  
+Implements [LLM Guard](https://github.com/protectai/llm-guard) to sanitize and validate both inputs and outputs from the LLM.
 
-- `populate_database.py`  
-  Populates the vector datastore by:
-  - Checking the `data/` folder for new entries
-  - Adding any new data into the datastore if not already present
+`populate_database.py`  
+Populates the vector datastore by:
+- Checking the `data/` folder for new entries
+- Adding any new data into the datastore if not already present
 
-- `query_data.py`  
-  Main querying interface that:
-  - Accepts user queries and sends them to the LLM
-  - Uses RAG (Retrieval-Augmented Generation) to retrieve relevant context from the datastore
-  - Applies input/output validation using `guardrail.py`
+`query_data.py`  
+Main querying interface that:
+- Accepts user queries and sends them to the LLM
+- Uses RAG (Retrieval-Augmented Generation) to retrieve relevant context from the datastore
+- Applies input/output validation using `guardrail.py`
 
-- `Ollama models`
-  - Llama3.2
+`Ollama models`
+Llama3.2
 
 ## Installation
 
