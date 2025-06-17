@@ -18,7 +18,7 @@ This project aims to address the critical gap by developing a comprehensive Secu
 - All relevant installations are in requirements.txt
 - We reccomend utilizing `python3.10`
 - We also reccomend utilizing venv, activation: `source ./venv/bin/activate`
-- To install all dependencies, refer to requirements.txt
+- To install all dependencies, refer to `requirements.txt`
 
 ```bash
 pip install -r requirements.txt
@@ -71,6 +71,7 @@ Implemented defense-in-depth
   - Inject the context into the LLM prompt, enabling the model to reason about user input with respect to trusted guidance
 
 ## Future work
+### Addition of metadata
 - Implement security and domain folders, as we embed information, the data is categorised in its metadata. This way we can call them indifferently when querying the model.
 - This will be done in `populate_database.py`
 
@@ -83,7 +84,7 @@ for doc in docs:
         doc.metadata["category"] = "domain"
 ```
 
-- Similarity search
+### Similarity search
 - This will be done in `query_data.py`
 
 ```bash
@@ -91,8 +92,11 @@ security_results = db.similarity_search_with_score(query_text, k=3, filter={"cat
 domain_results = db.similarity_search_with_score(query_text, k=5, filter={"category": "domain"})
 ```
 
+### Adversarial images and audio
 - Look into producing malicious data for images and audio
 - How to generate a malicious image: `https://www.youtube.com/watch?v=dqdOJzzWxs4`
+- Through our testing in `generate_adversarial_images.py`, we are able to fool CNNs like MobileNetV2 from Tensorflow but when inputted into gemini, the LLM identifies it correctly
+- For public models, there have been alot of adversarial training that has been put in place to fight against these adversarial attacks.
 
 ## Acknowledgements
 - Created by: Koh Yihao Kendrick (U2222663K)
