@@ -1,4 +1,3 @@
-import argparse
 from langchain_community.llms.ollama import Ollama
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.vectorstores.chroma import Chroma
@@ -19,14 +18,14 @@ def query_rag(query_text: str):
     embedding_function = get_embedding()
     db = Chroma(persist_directory="chroma", embedding_function=embedding_function)
 
-    # Search the DB
+    # Search the DB and return most relevant pages
     results = db.similarity_search_with_score(query_text, k=5)
 
     context_text = "\n\n---\n\n".join([doc.page_content for doc, _score in results])
     # print(context_text, "\n")
     prompt_template = ChatPromptTemplate.from_template(template)
     prompt = prompt_template.format(context=context_text, question=query_text)
-    # print(prompt)
+    print(prompt)
 
     model = Ollama(model="llama3.2")
     response_text = model.invoke(prompt)
@@ -35,11 +34,6 @@ def query_rag(query_text: str):
     return response_text, sources
 
 def main():
-    # Create CLI
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("query_text", type=str, help="The query text.")
-    # args = parser.parse_args()
-    # query_text = args.query_text
     while True:
         query_text = input("\nAsk your question (q to quit): ")
         if query_text == "q":
