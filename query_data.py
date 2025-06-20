@@ -25,7 +25,7 @@ def query_rag(query_text: str):
     # print(context_text, "\n")
     prompt_template = ChatPromptTemplate.from_template(template)
     prompt = prompt_template.format(context=context_text, question=query_text)
-    print(prompt)
+    # print(prompt)
 
     model = Ollama(model="llama3.2")
     response_text = model.invoke(prompt)
@@ -42,8 +42,9 @@ def main():
         print("\nSanitizing input...")
         sanitized_prompt = guardrail_input(query_text)
         print("Sanitized input:", sanitized_prompt)
+
         if sanitized_prompt == "eject":
-            print("Prompt injection detected")
+            print("Improper input detected detected")
             continue
 
         print("\nQuerying RAG...")
@@ -52,7 +53,7 @@ def main():
         print("\nSanitizing output...")
         sanitized_response_text = guardrail_output(sanitized_prompt, response_text)
         if sanitized_response_text == "eject":
-            print("Inproper output detected")
+            print("Improper output detected")
             continue
 
         formatted_response = f"\nResponse: {sanitized_response_text}\nSources: {sources}"
