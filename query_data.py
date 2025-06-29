@@ -1,4 +1,3 @@
-import argparse
 from langchain_community.llms.ollama import Ollama
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.vectorstores.chroma import Chroma
@@ -19,7 +18,7 @@ def query_rag(query_text: str):
     embedding_function = get_embedding()
     db = Chroma(persist_directory="chroma", embedding_function=embedding_function)
 
-    # Search the DB
+    # Search the DB and return most relevant pages
     results = db.similarity_search_with_score(query_text, k=5)
 
     context_text = "\n\n---\n\n".join([doc.page_content for doc, _score in results])
@@ -35,11 +34,6 @@ def query_rag(query_text: str):
     return response_text, sources
 
 def main():
-    # Create CLI
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("query_text", type=str, help="The query text.")
-    # args = parser.parse_args()
-    # query_text = args.query_text
     while True:
         query_text = input("\nAsk your question (q to quit): ")
         if query_text == "q":
@@ -48,8 +42,9 @@ def main():
         print("\nSanitizing input...")
         sanitized_prompt = guardrail_input(query_text)
         print("Sanitized input:", sanitized_prompt)
+
         if sanitized_prompt == "eject":
-            print("Prompt injection detected")
+            print("Improper input detected detected")
             continue
 
         print("\nQuerying RAG...")
@@ -58,7 +53,7 @@ def main():
         print("\nSanitizing output...")
         sanitized_response_text = guardrail_output(sanitized_prompt, response_text)
         if sanitized_response_text == "eject":
-            print("Inproper output detected")
+            print("Improper output detected")
             continue
 
         formatted_response = f"\nResponse: {sanitized_response_text}\nSources: {sources}"

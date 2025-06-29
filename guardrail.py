@@ -5,6 +5,7 @@ from llm_guard.output_scanners import Relevance, Sensitive
 input_scanners = [PromptInjection()]
 output_scanners = [Relevance(), Sensitive()]
 
+# Function using LLM-Guard to sanitize inputs
 def guardrail_input(prompt):
     sanitized_prompt, results_valid, results_score = scan_prompt(input_scanners, prompt)
     if any(results_valid.values()) is False:
@@ -14,6 +15,7 @@ def guardrail_input(prompt):
     print(f"Prompt: {sanitized_prompt}")
     return sanitized_prompt
 
+# Function using LLM-Guard to sanitize outputs
 def guardrail_output(sanitized_prompt, response_text):
     sanitized_response_text, results_valid, results_score = scan_output(
     output_scanners, sanitized_prompt, response_text
