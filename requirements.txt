@@ -1,0 +1,10 @@
+pandas
+datasets
+ollama
+openpyxl
+openai
+pyrit
+jupyter
+xlsxwriter
+azure-ai-evaluation
+azure-identity
